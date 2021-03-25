@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>ASSIGNMENT 4 </title>
+  </head>
+  <body onload="main();">
+    <body style="background-color: rgb(44,62,80)">
+    <h3 style = "color:white"> WELCOME! </h1>
+    <h4 style = "color:white">Canvas is fully interactable, so you can fully experience the lighting of the world</h4>
+    <canvas id="game-surface" width="800" height="600">
+      Your browser does not support HTML5
+    </canvas>
+    <div class="toolbar" style="color:white; position:absolute; right:600px; top:200px;" >
+      <h3>Lighting:</h3>
+      On<input type = "radio" value = "On" name = "Lighting" id = "on"checked>
+      Off<input type = "radio" value = "off" name = "Lighting" id = "off">
+    </div>
+
+    <div class="toolbar" style="color:white; position:absolute; right:505px; top:300px;">
+      <h3>Normal Visualization:</h3>
+      On<input type = "radio" value = "On" name = "Normals" id = "onNormal">
+      Off<input type = "radio" value = "off" name = "Normals" id = "offNormal"checked>
+    </div>
+    <img id="cat-image" src="cat.jpg" width="0" height="0"> </img>
+    <img id="ground-image" src="ground.jpg" width="0" height="0"n></img>
+    <img id="sky-image" src="sky.jpg" width="0" height="0" ></img>
+    <img id="crate-image" src="crate.png" width="0" height="0"></img>
+    <script src="gl-matrix.js"></script>
+    <script src="main.js"></script>
+    </body>
+</html>

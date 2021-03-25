@@ -1,0 +1,4 @@
+checksource: README*: No such file or directory
+checksource: improper character \x0D = ^M (carriage return)
+   file "Makefile": 97 errors: lines 1--97
+checksource: TOTAL COMPLAINTS: 98

@@ -1,0 +1,296 @@
+#!/usr/bin/perl
+# David Grim
+# dgrim@ucsc.edu
+
+use strict;
+use warnings;
+use Getopt::Std;
+use Data::Dumper;
+
+my %macros;
+my %tar;
+my $FILE;
+my $key;
+my @collect_Key;
+my %Opt;
+my $temp_execute = 0;
+$0 =~ s|.*/||;
+
+# mtime taken from mtime.perl
+sub mtime {
+    my ($filename) = @_;
+    my @stat = stat $filename;
+    return @stat ? $stat[9] : undef; 
+}
+
+# subroutine defining substitution
+sub Sub{
+    my ($Ln) = @_;
+    my @Val1;
+    my @El = split " ", $Ln;
+
+    for my $Val2 (@El) {
+        if ($Val2 =~ m/\${([^}]+)}/) {
+            my $Temp0 = $1;
+            if ($macros{$Temp0}) {
+                $Val2 =~ s/\${[^}]+}/$macros{$Temp0}/;
+            } else { # Error in Makefile. Exit with code 1.
+                print "Failed to find macro with key: $Temp0.\n";
+                exit 1;
+            }
+        }
+        push @Val1, $Val2;
+    }
+    return join " ", @Val1;
+}
+
+#Build the macro
+sub Build_Macro {
+    my ($Ln) = @_;
+
+    if ($Ln =~ m/(\S+)\s*=\s*(.*)/){
+        my $key = $1;
+        my $Temp1 = $2;
+        my $Val1;
+        if ($Temp1 =~ m/\${[^}]+}/){
+            $Val1 = Sub($Temp1);
+        }
+        else {
+            $Val1 = $Temp1;
+        }
+        $macros {$key} = $Val1;
+    }
+}
+
+# Open the Makefile. If not found display error message.
+open ($FILE, "<", "Makefile") 
+|| die ("Failed to open the Makefile.");
+
+# getopts from Getopt::std
+getopts ('d', \%Opt);
+
+while (my $Ln = <$FILE>){
+    chomp $Ln;
+
+    if ($Ln =~ m/(^\S+)\s*=\s*./){
+        Build_Macro ($Ln);
+    } elsif (($Ln =~ m/^(\S+)\s*:\s*(.*)/) 
+              && ((substr $Ln, 0, 1) ne "#")){
+        my $Temp2 = $1;
+        my $Temp3 = $2;
+        if($Temp2 =~ m/\${[^}]+}/){
+            $key = Sub($Temp2);
+        } else{
+            $key = $Temp2;
+        } if ($Temp3 =~ m/\${([^}]+)}/){
+            my $Temp1 = $Temp3;
+            $Temp3 = Sub($Temp1);
+        }
+
+        my @deps = split (" ", $Temp3);
+        $tar {$key} {'deps'} = \@deps;
+        $tar {$key} {'timestamp'} = 0;
+
+        my @command;
+
+        if (!$tar {$key} {'cmds'}){
+           $tar {$key} {'cmds'} = \@command;
+        }
+    }
+
+    elsif ($Ln =~ m/\t(\S+\s*.*)/){
+        my @command = @{$tar{$key}{'cmds'}};
+        my $command1 = $1;
+
+        if ($command1 =~ m/\${([^}]+)}/){
+            my $temp = $command1;
+            $command1 = Sub($temp);
+        }
+        push @command, $command1;
+        $tar {$key} {'cmds'} = \@command;
+    }
+}
+
+# Find the target for the macro;
+sub collect {
+    my ($var) = @_;
+    my @var1 = split /\./, $var;
+    $var = $var1[1];
+    my $k1;
+
+    for my $m (keys %macros){
+        my @arr = split (" ", $macros{$m});
+        for my $a (@arr){
+            if ($a =~ m/^\b(\w+\.$var)\b$/){
+                $k1 = $1;
+                if (!@collect_Key){
+                    push @collect_Key, $k1;
+                } elsif (@collect_Key){
+                    my $exists = 0;
+                    for my $k_c (@collect_Key){
+                        if ($k_c eq $k1){
+                            $exists = 1;
+                        }
+                    } if (!$exists){
+                        push @collect_Key, $k1;
+                    }
+                }
+            }
+        }
+    }
+    return @collect_Key;
+}
+
+for my $k (keys %tar){
+    if ($k =~ m/^(%)(\..*)/){
+        my $Ext = $2;
+        my $string;
+        my $FLAG = 0;
+
+        @collect_Key = collect($Ext);
+        for my $k1 (@collect_Key){
+            my @name = split /\./, $k1;
+            my $n = $name[0]; 
+            if ($tar{$k}{'deps'} > 0){
+                $string = join " ", @{$tar {$k} {'deps'}};
+            }
+            $string =~ s/%/$n/g;
+            my @deps = split " ", $string;
+            my @command;
+            if ($tar {$k} {'cmds'} > 0) {
+                for my $i (@{$tar {$k} {'cmds'}}){
+                    push @command, $i;
+                }
+            }
+            for my $k3 (keys %tar){
+                if ($k1 eq $k3){
+                    $FLAG = 1;
+                }
+            } if (!$FLAG){
+                $tar {$k1} {'deps'} = \@deps;
+                $tar {$k1} {'cmds'} = \@command;
+                $tar {$k1} {'timestamp'} = 0;
+            } elsif ($FLAG){
+                $tar{$k1}{'cmds'} = \@command;
+            }
+        }
+    }
+}
+
+for my $k (keys %tar){
+    if ($tar {$k} {'cmds'} > 0){
+        if (grep (/\$</, @{$tar {$k} {'cmds'}})){
+            for my $c (@{$tar {$k} {'cmds'}}){
+                my $first = ${$tar {$k} {'deps'}} [0]; 
+                $c =~ s/\$</$first/g;
+            }
+        } elsif (grep (/\$\$/, @{$tar {$k} {'cmds'}})){
+            for my $c (@{$tar {$k} {'cmds'}}){
+                $c =~ s/\$\$/\$/g;
+            }
+        } elsif (grep (/\$@/, @{$tar {$k} {'cmds'}})){
+            for my $c (@{$tar {$k} {'cmds'}}){
+                $c =~ s/\$@/$k/g;
+            }
+        }
+    }
+}
+
+
+# ///////////execute the command//////////////////
+sub execute_command {
+    my (@comm) = @_;
+    for my $com (@comm){
+        my $FLAG = 1;
+        if (substr($com, 0, 1) ne "@"){
+            print "$com\n";
+        } else{
+            $com =~ s/^.{2}//s;
+        } if ((substr $com, 0,1) eq "-"){
+            $FLAG = 0;
+            $com =~ s/^.{2}//s;
+        }
+
+        system($com); #(b)
+        my $term_signal = $? & 0x7F;
+        my $core_dumped = $? & 0x80;
+        my $exit_status = ($? >> 8) & 0xFF;
+        if (($FLAG == 1)&&($exit_status > 0)){
+           exit $exit_status;
+        }
+    }
+}
+
+# ///////Subroutine to check the time/////////
+sub Check_Time{
+    my ($file1, $file2) = @_;
+    my $t1;
+    my $t2;
+    if ($tar {$file1}){
+        $t1 = $tar {$file1} {'timestamp'};
+    } else{
+        $t1 = mtime($file1);
+    } if ($tar{$file2}){
+        $t2 = $tar{$file2}{'timestamp'}
+    } else{
+        $t2 = mtime($file2);
+    } if ((undef $t2) || (defined $t2 >=  $t1)){
+        return 1;
+    } else{
+        return 0;
+    }
+}
+
+# ////////General execute subroutine which call
+# execute command//////////////////////////////
+sub execute {
+    my ($k2, @prerequisite) = @_;
+    if (@prerequisite == 0) {
+        my @command_array = @{$tar {$k2} {'cmds'}};
+        execute_command(@command_array);
+        $temp_execute = 1;
+    } else {
+         for my $dep (@prerequisite){
+               if ($tar{$dep}){
+                 execute($dep, @{$tar{$dep}{'deps'}});
+             } else{
+                $temp_execute = Check_Time($k2, $dep);
+             }
+          } if (($temp_execute == 1) && ($tar {$k2} {'cmds'} > 0)){
+                my @command_array = @{$tar {$k2} {'cmds'}};
+            execute_command(@command_array);
+            }
+        }
+}
+
+#/////////////////////////////////////////////////////////
+seek ($FILE, 0,0);
+
+#check the arguments
+if (@ARGV > 0){
+    my (@arg) = @ARGV;
+    for my $i (@arg){
+        if (exists $tar{$i}){
+            my @deps_arr = @{$tar{$i}{'deps'}};
+            execute($i, @deps_arr);
+            $tar{$i}{'timestamp'} = time();
+        }
+    }
+}
+
+elsif (@ARGV == 0){
+    my $FLAG = 1;
+    while (defined $FILE && (my $Ln = <$FILE>) 
+           && ($FLAG == 1)){
+        chomp $Ln;
+        if (($Ln =~ m/(\S+)\s*:\s*(.*)/) 
+             && ((substr $Ln, 0,1) ne "#")){
+            my $k1 = $1;
+            my @deps_arr = @{$tar {$k1} {'deps'}};
+            execute ($k1, @deps_arr);
+            $tar {$k1} {'timestamp'} = time();
+            $FLAG = 0; 
+        }
+    }
+    close($FILE); 
+}

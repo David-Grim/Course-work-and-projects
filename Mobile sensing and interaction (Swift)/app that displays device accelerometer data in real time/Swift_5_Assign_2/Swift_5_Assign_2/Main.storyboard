@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zq4-ad-FJV">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ONLINE STEP COUNTER-->
+        <scene sceneID="ssQ-Lc-kIc">
+            <objects>
+                <viewController id="dFZ-2V-Rt6" customClass="ViewController" customModule="Swift_5_Assign_2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GsT-rc-D3e">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acceleration Measurement" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45y-4F-fkz">
+                                <rect key="frame" x="16" y="118" width="358" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="ykc-gG-hmM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <color key="textColor" red="0.0039919633579999997" green="0.099723163569999995" blue="0.53025825780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oO-fI-7q3">
+                                <rect key="frame" x="67" y="304" width="280" height="288"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="start"/>
+                                <connections>
+                                    <action selector="buttonPressed" destination="dFZ-2V-Rt6" eventType="touchUpInside" id="vY7-8x-0W1"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Acceleration Magnitude" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cKv-zY-da7">
+                                <rect key="frame" x="8" y="617" width="374" height="118"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.0039919633579999997" green="0.099723163569999995" blue="0.53025825780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="axis: value" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c8Z-Gk-sv1">
+                                <rect key="frame" x="97" y="168" width="158" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.0039919633579999997" green="0.099723163569999995" blue="0.53025825780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Step: 0 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rf1-kw-lT8">
+                                <rect key="frame" x="0.0" y="693" width="374" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" red="0.40796702260000001" green="0.050641957180000002" blue="0.11755447030000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QEY-aR-V5Q"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="45y-4F-fkz" firstAttribute="leading" secondItem="GsT-rc-D3e" secondAttribute="leadingMargin" id="BI2-KJ-ZBR"/>
+                            <constraint firstItem="45y-4F-fkz" firstAttribute="top" secondItem="QEY-aR-V5Q" secondAttribute="top" constant="30" id="MCi-FG-nJc"/>
+                            <constraint firstItem="45y-4F-fkz" firstAttribute="trailing" secondItem="GsT-rc-D3e" secondAttribute="trailingMargin" id="zGl-rQ-F9E"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="ONLINE STEP COUNTER" id="1RO-ri-WXS"/>
+                    <connections>
+                        <outlet property="buttonOutlet" destination="0oO-fI-7q3" id="i6u-IG-zaU"/>
+                        <outlet property="magnitudeLabel" destination="cKv-zY-da7" id="fz2-AZ-1A0"/>
+                        <outlet property="measurementLabel" destination="c8Z-Gk-sv1" id="zmR-uh-wLd"/>
+                        <outlet property="totalStepLabel" destination="rf1-kw-lT8" id="Qej-0j-l8K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V3b-mz-0JL" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="207.24637681159422" y="117.1875"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="U0E-gN-NWH">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zq4-ad-FJV" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e3b-BH-JAg">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="dFZ-2V-Rt6" kind="relationship" relationship="rootViewController" id="XF3-Yf-9Vw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="86h-M1-nxb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-519" y="117"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="start" width="280" height="288"/>
+    </resources>
+</document>

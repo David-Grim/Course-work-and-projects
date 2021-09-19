@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rgr-TZ-58J">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Horizon Line-->
+        <scene sceneID="k9u-Al-hEr">
+            <objects>
+                <viewController id="qkE-Nd-fYN" customClass="ViewController" customModule="Swift_5_Assign_4" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k0r-f1-3d5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cwp-p3-gbq">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </imageView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="uhl-dM-lCm">
+                                <rect key="frame" x="20" y="845" width="374" height="32"/>
+                                <segments>
+                                    <segment title="Device Motion"/>
+                                    <segment title="Gyros"/>
+                                </segments>
+                                <connections>
+                                    <action selector="toggleSensorDevice:" destination="qkE-Nd-fYN" eventType="valueChanged" id="bYT-GZ-5HK"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press Start to display the horizon line" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iad-qR-xvn">
+                                <rect key="frame" x="20" y="817" width="374" height="20"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <color key="textColor" red="0.24589332080000001" green="0.62817762310000003" blue="0.1040808936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sensor Device : Device Motion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dx-fA-HCu">
+                                <rect key="frame" x="20" y="111" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="0.097938920380000002" green="0.1475540853" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="D6g-z8-yLL"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="3dx-fA-HCu" firstAttribute="top" secondItem="D6g-z8-yLL" secondAttribute="top" constant="23" id="0Bw-XW-vdQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Cwp-p3-gbq" secondAttribute="trailing" id="9IS-9f-gjC"/>
+                            <constraint firstItem="3dx-fA-HCu" firstAttribute="trailing" secondItem="iad-qR-xvn" secondAttribute="trailing" id="PXs-iW-9DB"/>
+                            <constraint firstItem="uhl-dM-lCm" firstAttribute="centerX" secondItem="Cwp-p3-gbq" secondAttribute="centerX" id="Pg0-qw-7Ew"/>
+                            <constraint firstItem="uhl-dM-lCm" firstAttribute="top" secondItem="iad-qR-xvn" secondAttribute="bottom" constant="8" symbolic="YES" id="U4v-hl-OOK"/>
+                            <constraint firstItem="uhl-dM-lCm" firstAttribute="leading" secondItem="k0r-f1-3d5" secondAttribute="leadingMargin" id="bJc-JI-ILw"/>
+                            <constraint firstAttribute="bottom" secondItem="uhl-dM-lCm" secondAttribute="bottom" constant="20" symbolic="YES" id="bfY-Yv-WqU"/>
+                            <constraint firstItem="Cwp-p3-gbq" firstAttribute="leading" secondItem="k0r-f1-3d5" secondAttribute="leading" id="eMy-Bf-LoN"/>
+                            <constraint firstItem="3dx-fA-HCu" firstAttribute="leading" secondItem="iad-qR-xvn" secondAttribute="leading" id="eV5-Ac-5DN"/>
+                            <constraint firstItem="iad-qR-xvn" firstAttribute="trailing" secondItem="uhl-dM-lCm" secondAttribute="trailing" id="emJ-i3-5k4"/>
+                            <constraint firstItem="Cwp-p3-gbq" firstAttribute="top" secondItem="D6g-z8-yLL" secondAttribute="top" id="iOw-u1-YQ8"/>
+                            <constraint firstItem="iad-qR-xvn" firstAttribute="leading" secondItem="uhl-dM-lCm" secondAttribute="leading" id="rJ1-uM-oXA"/>
+                            <constraint firstItem="Cwp-p3-gbq" firstAttribute="bottom" secondItem="D6g-z8-yLL" secondAttribute="bottom" id="t0z-mp-dC6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Horizon Line" id="fEK-7b-9D9">
+                        <barButtonItem key="rightBarButtonItem" title="Start" id="Xa7-Ad-uGf">
+                            <connections>
+                                <action selector="toggleSensorUpdates:" destination="qkE-Nd-fYN" id="2Of-03-DCm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="Cwp-p3-gbq" id="WCD-22-odB"/>
+                        <outlet property="promptLabel" destination="iad-qR-xvn" id="KEb-2c-gmb"/>
+                        <outlet property="segmentControl" destination="uhl-dM-lCm" id="xAi-n4-Ln4"/>
+                        <outlet property="sensorDeviceLabel" destination="3dx-fA-HCu" id="B3K-0O-Gcs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LMU-5F-BUO" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="564" y="132.68365817091455"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JNX-FS-8wL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rgr-TZ-58J" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UVz-hL-BQJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qkE-Nd-fYN" kind="relationship" relationship="rootViewController" id="Vlc-Zb-Xbv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Stv-Tt-8sW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-188" y="133"/>
+        </scene>
+    </scenes>
+</document>
